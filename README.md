@@ -44,3 +44,14 @@ Les technologies utilisé pour le réaliser sont :
 
 - Le refresh de la page affichera la dernière recherche effectué (comme demandé dans le sujet), malheureusement, pour une raison encore inconnu, certainnes images de se chargerons plus.
 - Il est possible qu'il existe certains bugs sur un navigateur autre que Firefox, mais a priori tout fonctionne (attention tout de même à ne pas login votre compte sur deux navigateurs en même temps)
+
+
+## Démarche
+
+- L'asynchrone a été utilisé pour les requêtes fetch à l'API
+- Site responsive design
+- Utilisation de grille HTML
+- Code procédurale
+- Dans la logique de la SPA, des POPUP ont été créées pour éviter de recharger une autre page.
+- De même, l'update de la page se fait dynamiquement
+- L'utilisation des cookies a été grandement abordé pour la gestion des sessions ainsi que de la sauvegarde de la dernière recherche 
