@@ -1,5 +1,7 @@
 # newsAPI - My NewsPaper
 
+Made By Valentin GUILBAUD
+
 ![HTML5](https://img.shields.io/badge/HTML-5-orange)
 ![CSS3](https://img.shields.io/badge/CSS-3-blue)
 ![JavaScript](https://img.shields.io/badge/JavaScript-Natif-yellow)
@@ -55,3 +57,6 @@ Les technologies utilisé pour le réaliser sont :
 - Dans la logique de la SPA, des POPUP ont été créées pour éviter de recharger une autre page.
 - De même, l'update de la page se fait dynamiquement
 - L'utilisation des cookies a été grandement abordé pour la gestion des sessions ainsi que de la sauvegarde de la dernière recherche 
+
+
+Valentin GUILBAUD
