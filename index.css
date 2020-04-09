@@ -1,0 +1,69 @@
+html, body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.nav-wrapper > a {
+    padding-left: 30px;
+}
+
+section img { max-width: 100%; }
+
+.date { text-align: right; }
+
+.title { font-size: 1.6em; }
+
+.hoverable { cursor: pointer; }
+
+.popup {
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    z-index: 20;
+}
+
+.popupForm {
+    background-color: white;
+    width: 500px;
+    position: relative;
+    left: -50%;
+    top: -50%;
+    border-radius: 20px;
+    padding-bottom: 50px;
+}
+
+.darkBG {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: 10;
+    background-color: black;
+    opacity: 0.6;
+}
+
+.invisible, #hideAccount, #userAccountToken, .bookmark, .sourceId {
+    display: none;
+}
+
+.closeCross {
+    text-align: right;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.bookmark, .trash {
+    text-align: right;
+    cursor: pointer;
+}
+
+.bookOverflow {
+    overflow: scroll;
+    min-width: 700px;
+    max-height: 500px;
+}

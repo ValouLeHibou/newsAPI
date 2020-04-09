@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>MyNewsAPI</title>
+        <meta name="MyNewsAPI" content="MyNewsAPI">
+        <meta name="author" content="Valentin GUILBAUD">
+        <meta name="description" content="MyNewsAPI">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="index.css">
+
+        <!-- MaterializeCSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <header>
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="#">My NewsPaper</a>
+                    <ul id="nav-mobile" class="right">
+                        <div id="hideAccount">
+                            <li><a href="#" onclick="logout()">Logout</a></li>
+                            <li><a href="#" onclick="displayBook()">Bookmarks</a></li>
+                            <li id="userAccount"></li>
+                        </div>
+                        <li id="userAccountToken"></li>
+                        <li><a href="#" onclick="displayLogin()">Login</a></li>
+                        <li><a href="#" onclick="displaySignin()">Signin</a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+
+        <!-- SEARCH FORM -->
+        <div class="container">
+            <ul class="collapsible">
+                <li>
+                    <div class="collapsible-header"><i class="material-icons">search</i>Search Articles</div>
+                    <div class="collapsible-body">
+                        <form action="#" id="newsForm">
+                            <label>Select the source</label>
+                            <select id="mySelect" required>
+                                <option value="" disabled selected>Choose your option</option>
+                            </select>
+                            <input type="text" name="question" placeholder="Any keywords?" id="keyword">
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+
+            <!-- BOOKMARKS -->
+            <div id="bookmark" class="invisible">
+                <div class="darkBG" onclick="closeForm()"></div>
+                <div class="popup">
+                    <div class="popupForm bookOverflow">
+                        <div class="closeCross">
+                            <div onclick="closeForm()"><i class="material-icons">clear</i></div>
+                        </div>
+                        <section id="bookmarkList"></section>
+                    </div>
+                </div>
+            </div>
+
+            <!-- LOGIN FORM -->
+            <div id="login" class="invisible">
+                <div class="darkBG" onclick="closeForm()"></div>
+                <div class="popup">
+                    <div class="popupForm">
+                        <div class="closeCross">
+                            <div onclick="closeForm()"><i class="material-icons">clear</i></div>
+                        </div>
+                        <form action="#" id="loginForm" class="container">
+                            <label for="loginMail">Your Email</label>
+                            <input type="email" name="mail" id="loginMail" placeholder="My Email Adress" required><br>
+                            <label for="loginPass">Your Password</label>
+                            <input type="password" name="pass" id="loginPass" placeholder="My Password" required><br>
+                            <button type="submit">Login</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIGNIN FORM -->
+            <div id="signin" class="invisible">
+                <div class="darkBG" onclick="closeForm()"></div>
+                <div class="popup">
+                    <div class="popupForm">
+                        <div class="closeCross">
+                            <div onclick="closeForm()"><i class="material-icons">clear</i></div>
+                        </div>
+                        <form action="#" id="signinForm" class="container">
+                            <label for="firstName">Your First Name</label>
+                            <input type="text" name="firstName" id="firstName" placeholder="My First Name" required><br>
+                            <label for="lastName">Your Last Name</label>
+                            <input type="text" name="lastName" id="lastName" placeholder="My Last Name" required><br>
+
+                            <label for="signinMail">Your Email</label>
+                            <input type="email" name="signinMail" id="signinMail" placeholder="My Email Adress" required><br>
+                            <label for="signinPass">Your Password</label>
+                            <input type="password" name="signinPass" id="signinPass" placeholder="My Password" required><br>
+                            <button type="submit">Signin</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- ARTICLE SECTION LIST -->
+            <section id="mainSection"></section>
+        </div>
+    </body>
+
+    <!-- Display Articles -->
+    <script type="text/javascript" src="index.js"></script>
+
+    <script type="text/javascript">
+
+        let defaultSource = document.cookie.replace(/(?:(?:^|.*;\s*)defaultSource\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        if (defaultSource == "") {
+            document.cookie = 'defaultSource=time';
+            document.cookie = 'defaultkey=';
+        }
+
+        // COLLAPSIBLE
+        document.addEventListener('DOMContentLoaded', function() {
+            let elems = document.querySelectorAll('.collapsible');
+            let instances = M.Collapsible.init(elems, null);
+        });
+
+        // New Research Form Submit
+        document.getElementById("newsForm").onsubmit = function(event){
+            event.preventDefault();
+            let source = document.getElementById('mySelect').value;
+            let keyword = document.getElementById('keyword').value.replace(/ /g, '+');
+            let searchUrl = "https://newsapi.org/v2/everything?sources=" + source + "&q=" + keyword + "&apiKey=dab8a9a7ce7b4eeea8174c4ccdb343b5";
+            document.getElementById("mainSection").innerHTML = ''
+            updateArticle(searchUrl, source, keyword);
+        };
+
+        // Login Form Submit
+        document.getElementById("loginForm").onsubmit = function(event){
+            event.preventDefault();
+            let mail = document.getElementById('loginMail').value;
+            let pass = document.getElementById('loginPass').value;
+            login(mail, pass);
+        };
+
+        // Signin Form Submit
+        document.getElementById("signinForm").onsubmit = function(event){
+            event.preventDefault();
+            let firstName = document.getElementById('firstName').value;
+            let lastName = document.getElementById('lastName').value;
+            let mail = document.getElementById('signinMail').value;
+            let pass = document.getElementById('signinPass').value;
+            signin(firstName, lastName, mail, pass);
+        };
+    </script>
+</html>
